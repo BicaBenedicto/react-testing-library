@@ -10,7 +10,10 @@ describe('Requisito 5 - Teste o component Pokedex', () => {
   });
 
   it('contém heading com o texto Encountered pokemons', () => {
-    const findTitlePage = screen.getByRole('heading', { name: /encountered pokémons/i });
+    const findTitlePage = screen.getByRole('heading', {
+      level: 2,
+      name: /encountered pokémons/i,
+    });
     expect(findTitlePage).toBeInTheDocument();
   });
 
@@ -39,13 +42,6 @@ describe('Requisito 5 - Teste o component Pokedex', () => {
 
   it('pokédex possui botões de filtro', () => {
     const buttonAll = screen.getByRole('button', { name: /all/i });
-    const TYPES = ['All',
-      'Electric', 'Fire', 'Bug', 'Poison', 'Psychic', 'Normal', 'Dragon'];
-    const filterButtons = screen.getAllByRole('button')
-      .filter((buttonElement) => buttonElement.classList.contains('filter-button'));
-    expect(filterButtons).toHaveLength(TYPES.length);
-    expect(buttonAll).toBeInTheDocument();
-
     const filterFireButton = screen.getByRole('button', { name: /fire/i });
     userEvent.click(filterFireButton);
 
@@ -68,55 +64,29 @@ describe('Requisito 5 - Teste o component Pokedex', () => {
     userEvent.click(nextPokemonButton);
     expect(charmander).toBeInTheDocument();
     expect(buttonAll).toBeInTheDocument();
-
-    const filterButtonsValue = filterButtons
-      .map((buttonElement) => buttonElement.innerHTML);
-    expect(filterButtonsValue).toEqual(TYPES);
-    expect(buttonAll).toBeInTheDocument();
   });
 
-  it('o filtro do elemento psychic funciona', () => {
-    const buttonAll = screen.getByRole('button', { name: /all/i });
-    const filterPsychicButton = screen.getByRole('button', { name: /psychic/i });
-    userEvent.click(filterPsychicButton);
+  it('há botões de filtro', () => {
+    const typesButton = screen.getAllByTestId('pokemon-type-button');
+    const TYPES = ['All',
+      'Electric', 'Fire', 'Bug', 'Poison', 'Psychic', 'Normal', 'Dragon'];
+    const filterButtons = screen.getAllByRole('button')
+      .filter((buttonElement) => buttonElement.classList.contains('filter-button'));
 
-    const nextPokemonButton = screen.getByRole('button', { name: /próximo pokémon/i });
-    expect(nextPokemonButton).toBeInTheDocument();
-    expect(buttonAll).toBeInTheDocument();
-
-    const alakazam = screen.getByText(/alakazam/i);
-    const psychic = screen.getAllByText(/psychic/i);
-    expect(alakazam).toBeInTheDocument();
-    expect(psychic).toHaveLength(2);
-    expect(buttonAll).toBeInTheDocument();
-
-    userEvent.click(nextPokemonButton);
-    const mew = screen.getByText(/mew/i);
-    expect(mew).toBeInTheDocument();
-    expect(psychic).toHaveLength(2);
-    expect(buttonAll).toBeInTheDocument();
-
-    userEvent.click(nextPokemonButton);
-    expect(alakazam).toBeInTheDocument();
-    expect(buttonAll).toBeInTheDocument();
-  });
-
-  it('o filtro do elemento bug funciona', () => {
-    const buttonAll = screen.getByRole('button', { name: /all/i });
-    const filterBugButton = screen.getByRole('button', { name: /bug/i });
-    userEvent.click(filterBugButton);
-
-    const nextPokemonButton = screen.getByRole('button', { name: /próximo pokémon/i });
-    expect(nextPokemonButton).toBeInTheDocument();
-    expect(buttonAll).toBeInTheDocument();
-
-    const caterpie = screen.getByText(/caterpie/i);
-    const bug = screen.getAllByText(/bug/i);
-    expect(caterpie).toBeInTheDocument();
-    expect(bug).toHaveLength(2);
-    expect(buttonAll).toBeInTheDocument();
-
-    expect(nextPokemonButton.disabled).toEqual(true);
+    expect(typesButton[0]).toBeInTheDocument();
+    expect(typesButton[1]).toBeInTheDocument();
+    expect(typesButton[2]).toBeInTheDocument();
+    expect(typesButton[3]).toBeInTheDocument();
+    expect(typesButton[4]).toBeInTheDocument();
+    expect(typesButton[5]).toBeInTheDocument();
+    expect(typesButton[6]).toBeInTheDocument();
+    expect(filterButtons[1].innerHTML).toBe(TYPES[1]);
+    expect(filterButtons[2].innerHTML).toBe(TYPES[2]);
+    expect(filterButtons[3].innerHTML).toBe(TYPES[3]);
+    expect(filterButtons[4].innerHTML).toBe(TYPES[4]);
+    expect(filterButtons[5].innerHTML).toBe(TYPES[5]);
+    expect(filterButtons[6].innerHTML).toBe(TYPES[6]);
+    expect(filterButtons[7].innerHTML).toBe(TYPES[7]);
   });
 
   it('pokédex contém um botão para resetar o filtro', () => {
