@@ -3,7 +3,7 @@ import React from 'react';
 import NotFound from '../components/NotFound';
 import renderWithRouter from './renderWithRouter';
 
-describe('Requisito 2 - Teste o component NotFound', () => {
+describe('Requisito 4 - Teste o component NotFound', () => {
   beforeEach(() => {
     renderWithRouter(<NotFound />);
   });
